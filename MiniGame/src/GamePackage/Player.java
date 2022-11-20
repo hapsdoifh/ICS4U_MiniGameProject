@@ -6,7 +6,7 @@ package GamePackage;
 
 /**
  *
- * @author zuhan
+ * @author lTruUsr
  */
 public class Player {
     
