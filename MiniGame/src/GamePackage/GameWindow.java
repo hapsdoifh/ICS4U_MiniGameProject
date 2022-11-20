@@ -11,12 +11,16 @@ package GamePackage;
 public class GameWindow extends javax.swing.JFrame {
 
     MenuPage mp;
-    
+    TypingGame MainGame;
     /**
      * Creates new form GameWindow
      */
     public GameWindow(MenuPage mp) {
         initComponents();
+        MainGame = new TypingGame("RandomWords.txt");     
+        if(!MainGame.getRoundState()){//round not started
+            MainGame.startRound(jTextArea1,jTextField3);            
+        }    
         this.mp = mp;
     }
 
@@ -53,7 +57,16 @@ public class GameWindow extends javax.swing.JFrame {
 
         jTextField3.setBackground(new java.awt.Color(253, 101, 101));
         jTextField3.setFont(new java.awt.Font("SimSun", 0, 18)); // NOI18N
-        jTextField3.setText("User input goes here");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField3KeyReleased(evt);
+            }
+        });
         jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 202, 675, 93));
 
         jLabel2.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
@@ -74,6 +87,8 @@ public class GameWindow extends javax.swing.JFrame {
         jTextArea1.setEditable(false);
         jTextArea1.setBackground(new java.awt.Color(253, 101, 101));
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("SimSun", 0, 18)); // NOI18N
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea1);
@@ -85,6 +100,11 @@ public class GameWindow extends javax.swing.JFrame {
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Next Level");
         jButton1.setBorderPainted(false);
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 180, 30));
 
         jButton2.setBackground(new java.awt.Color(253, 101, 101));
@@ -119,6 +139,31 @@ public class GameWindow extends javax.swing.JFrame {
         setVisible(false);
         mp.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:        
+        if(!MainGame.getRoundState()){//round not started
+            MainGame.startRound(jTextArea1,jTextField3);            
+        }    
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+        // TODO add your handling code here:
+        if(!MainGame.getRoundState()){//round not started
+            MainGame.startRound(jTextArea1,jTextField3);            
+        }else{
+            if(jTextField3.getText().contains(" ")){ //check this word
+                if(MainGame.CheckWord(jTextField3)){
+                    jLabel2.setText(""+MainGame.getScore());
+                }
+            }
+        }
+    }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
