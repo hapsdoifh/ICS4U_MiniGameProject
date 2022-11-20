@@ -42,7 +42,7 @@ public class TypingGame {
         if(reval){ //round eded
             toggleRound();     
            //Score Calculation Here
-           totalScore += 100-10*GameLevel.getMistakes();//place holder
+           totalScore += 100-10*GameLevel.getMistakes();//place holder 
                    
            GameLevel.clear();
         }

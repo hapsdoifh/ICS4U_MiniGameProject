@@ -39,8 +39,8 @@ public class Level{
         text = null;
     }
     public void DoLevel(javax.swing.JTextArea Dest, javax.swing.JTextField Source){
-        int rangeBot = Words.size()/30*(difficulty-1);
-        int rangeTop = Words.size()/30*(difficulty);
+        int rangeBot = Words.size()/20*(difficulty>=20?19:difficulty-1);
+        int rangeTop = Words.size()/20*(difficulty>=20?20:difficulty);
         int L = (int)(10+difficulty*1.5);
         text = new String[L];
         String output = "";

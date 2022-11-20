@@ -145,13 +145,14 @@ public class GameWindow extends javax.swing.JFrame {
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3);            
         }    
+        jTextField3.setText("");
         
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
         // TODO add your handling code here:
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);            
+            //MainGame.startRound(jTextArea1,jTextField3);            
         }else{
             if(jTextField3.getText().contains(" ")){ //check this word
                 if(MainGame.CheckWord(jTextField3)){
