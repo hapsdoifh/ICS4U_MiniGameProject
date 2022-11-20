@@ -13,7 +13,7 @@ public class Level{
     protected int time; //in seconds
     protected int Mistakes;
     protected ArrayList<String> Words = new ArrayList<String>();
-
+    
     public Level(String Filename){
         difficulty = 1;
         checkIndex = 0;
@@ -28,6 +28,10 @@ public class Level{
         }
         catch(Exception e){}
     }
+    public int getMistakes(){
+        return Mistakes;
+    }
+    
     public void clear(){
         checkIndex = 0;
         time = 0; //in seconds
@@ -51,10 +55,11 @@ public class Level{
         int mistake = 0;
         for(int i = 0; i<text[checkIndex].length();i++){
             if(i>=In.length()){
+                mistake += text[checkIndex].length() - In.length();
                 break;
             }
             else if(text[checkIndex].charAt(i) != In.charAt(i)){
-                mistake ++;
+                mistake++;
             }
         }
         checkIndex++;
