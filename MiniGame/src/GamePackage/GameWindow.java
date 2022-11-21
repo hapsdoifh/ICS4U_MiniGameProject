@@ -18,7 +18,7 @@ public class GameWindow extends javax.swing.JFrame {
     TypingGame MainGame;
     
     Timer timer;
-    int second, minute;
+    int second, minute, round;
     String ddSecond, ddMinute;
     
     DecimalFormat dFormat = new DecimalFormat("00");
@@ -35,7 +35,8 @@ public class GameWindow extends javax.swing.JFrame {
         this.mp = mp;
         
         second = 0;
-        minute = 3;
+        minute = 1;
+        round = 0;
         
         jLabel5.setText("0" + minute + ":00");
       
@@ -167,13 +168,14 @@ public class GameWindow extends javax.swing.JFrame {
        
         //the code below goes into the negatives - NOT FIXED YET
         jTextField3.setText("");
-        second = 0;
+        round++;
+        second = 60 - (5*round);
         
-        if (minute==0) {
-            minute = 1;
-            jLabel5.setText("0" + minute + ":00");
+        if (minute==0 && second<=10) {
+            second = 10;
+            jLabel5.setText("00:10");
         } else {
-            jLabel5.setText("0" + minute + ":00");
+            jLabel5.setText("0" + minute + ":" + second);
         }
         
     }//GEN-LAST:event_jButton1MouseClicked
