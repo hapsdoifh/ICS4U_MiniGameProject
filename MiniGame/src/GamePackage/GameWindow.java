@@ -34,10 +34,11 @@ public class GameWindow extends javax.swing.JFrame {
         }    
         this.mp = mp;
         
-        
-        jLabel5.setText("03:00");
         second = 0;
         minute = 3;
+        
+        jLabel5.setText("0" + minute + ":00");
+      
 
     }
 
@@ -75,11 +76,6 @@ public class GameWindow extends javax.swing.JFrame {
 
         jTextField3.setBackground(new java.awt.Color(253, 101, 101));
         jTextField3.setFont(new java.awt.Font("SimSun", 0, 18)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
         jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField3KeyReleased(evt);
@@ -168,7 +164,17 @@ public class GameWindow extends javax.swing.JFrame {
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3);            
         }    
+       
+        //the code below goes into the negatives - NOT FIXED YET
         jTextField3.setText("");
+        second = 0;
+        
+        if (minute==0) {
+            minute = 1;
+            jLabel5.setText("0" + minute + ":00");
+        } else {
+            jLabel5.setText("0" + minute + ":00");
+        }
         
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -184,10 +190,6 @@ public class GameWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jTextField3KeyReleased
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 
      public void Timer() {
         timer = new Timer(1000, new ActionListener() {
@@ -213,7 +215,7 @@ public class GameWindow extends javax.swing.JFrame {
                 
                 if (minute==0 && second==0) {
                     timer.stop();
-                }
+                } 
             }
         });
         

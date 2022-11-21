@@ -72,4 +72,8 @@ public class Level{
             return false;
         }
     }
+    
+    public void decreaseTime() {
+        
+    }
 }
