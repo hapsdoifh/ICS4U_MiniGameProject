@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GamePackage;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import javax.swing.Timer;
 
 /**
  *
@@ -12,6 +16,13 @@ public class GameWindow extends javax.swing.JFrame {
 
     MenuPage mp;
     TypingGame MainGame;
+    
+    Timer timer;
+    int second, minute;
+    String ddSecond, ddMinute;
+    
+    DecimalFormat dFormat = new DecimalFormat("00");
+    
     /**
      * Creates new form GameWindow
      */
@@ -19,9 +30,15 @@ public class GameWindow extends javax.swing.JFrame {
         initComponents();
         MainGame = new TypingGame("RandomWords.txt");     
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);            
+            MainGame.startRound(jTextArea1,jTextField3);    
         }    
         this.mp = mp;
+        
+        
+        jLabel5.setText("03:00");
+        second = 0;
+        minute = 3;
+
     }
 
     /**
@@ -43,6 +60,7 @@ public class GameWindow extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,7 +123,7 @@ public class GameWindow extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 180, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 370, 160, 20));
 
         jButton2.setBackground(new java.awt.Color(253, 101, 101));
         jButton2.setFont(new java.awt.Font("Stencil", 0, 18)); // NOI18N
@@ -118,6 +136,11 @@ public class GameWindow extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 180, 30));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("jLabel5");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 340, 100, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,6 +189,38 @@ public class GameWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+     public void Timer() {
+        timer = new Timer(1000, new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                second--;
+             
+                ddSecond = dFormat.format(second);
+                ddMinute = dFormat.format(minute);
+                
+                jLabel5.setText(ddMinute + ":" + ddSecond);
+                
+                if (second==-1) {
+                    second=59;
+                    minute--;
+                    
+                    ddSecond = dFormat.format(second);
+                    ddMinute = dFormat.format(minute);
+                    jLabel5.setText(ddMinute + ":" + ddSecond);
+                   
+                }
+                
+                if (minute==0 && second==0) {
+                    timer.stop();
+                }
+            }
+        });
+        
+        timer.start();
+    }
+
+    
     /**
      * @param args the command line arguments
      */
@@ -207,6 +262,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
