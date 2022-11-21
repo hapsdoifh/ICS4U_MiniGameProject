@@ -34,10 +34,11 @@ public class GameWindow extends javax.swing.JFrame {
         }    
         this.mp = mp;
         
-        
-        jLabel5.setText("03:00");
         second = 0;
         minute = 3;
+        
+        jLabel5.setText("0" + minute + ":00");
+      
 
     }
 
@@ -168,7 +169,11 @@ public class GameWindow extends javax.swing.JFrame {
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3);            
         }    
+       
+        //the code below goes into the negatives - NOT FIXED YET
         jTextField3.setText("");
+        second = 0;
+        jLabel5.setText("0" + minute + ":00");
         
     }//GEN-LAST:event_jButton1MouseClicked
 
