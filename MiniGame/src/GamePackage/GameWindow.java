@@ -172,7 +172,9 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:        
+        
+        jTextField3.setEditable(true);
+              
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3); 
             start = LocalTime.now().toNanoOfDay();
@@ -199,6 +201,7 @@ public class GameWindow extends javax.swing.JFrame {
             if(jTextField3.getText().contains(" ")){ //check this word
                 if(MainGame.CheckWord(jTextField3)){
                     jLabel2.setText(""+MainGame.getScore());
+                    jTextField3.setEditable(false);
                     end = LocalTime.now().toNanoOfDay();
                     MainGame.displayWPM(start, end, jLabel6);
                 }
