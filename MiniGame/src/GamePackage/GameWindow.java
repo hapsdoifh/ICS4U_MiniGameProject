@@ -6,6 +6,7 @@ package GamePackage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.time.LocalTime;
 import javax.swing.Timer;
 
 /**
@@ -21,6 +22,9 @@ public class GameWindow extends javax.swing.JFrame {
     int second, minute, round;
     String ddSecond, ddMinute;
     
+    double start;
+    double end;
+    
     DecimalFormat dFormat = new DecimalFormat("00");
     
     /**
@@ -28,9 +32,10 @@ public class GameWindow extends javax.swing.JFrame {
      */
     public GameWindow(MenuPage mp) {
         initComponents();
-        MainGame = new TypingGame("RandomWords.txt");     
+        MainGame = new TypingGame("RandomWords.txt");   
+        start = LocalTime.now().toNanoOfDay();
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);    
+            MainGame.startRound(jTextArea1,jTextField3);   
         }    
         this.mp = mp;
         
@@ -63,6 +68,7 @@ public class GameWindow extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,10 +140,15 @@ public class GameWindow extends javax.swing.JFrame {
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 180, 30));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("jLabel5");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 340, 100, 20));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("jLabel6");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,15 +174,15 @@ public class GameWindow extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:        
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);            
+            MainGame.startRound(jTextArea1,jTextField3); 
+            start = LocalTime.now().toNanoOfDay();
         }    
        
-        //the code below goes into the negatives - NOT FIXED YET
         jTextField3.setText("");
         round++;
-        second = 60 - (5*round);
+        second = 60 - (5*round); //decreases timer by 5 seconds for each increasing level
         
-        if (minute==0 && second<=10) {
+        if (minute==0 && second<=10) { //lowest timer can go is 10 seconds
             second = 10;
             jLabel5.setText("00:10");
         } else {
@@ -188,11 +199,15 @@ public class GameWindow extends javax.swing.JFrame {
             if(jTextField3.getText().contains(" ")){ //check this word
                 if(MainGame.CheckWord(jTextField3)){
                     jLabel2.setText(""+MainGame.getScore());
+                    end = LocalTime.now().toNanoOfDay();
+                    MainGame.displayWPM(start, end, jLabel6);
                 }
             }
+            
         }
     }//GEN-LAST:event_jTextField3KeyReleased
 
+    //countdown timer
      public void Timer() {
         timer = new Timer(1000, new ActionListener() {
             
@@ -205,7 +220,7 @@ public class GameWindow extends javax.swing.JFrame {
                 
                 jLabel5.setText(ddMinute + ":" + ddSecond);
                 
-                if (second==-1) {
+                if (second==-1) { //moves onto next minute (one less)
                     second=59;
                     minute--;
                     
@@ -215,7 +230,7 @@ public class GameWindow extends javax.swing.JFrame {
                    
                 }
                 
-                if (minute==0 && second==0) {
+                if (minute==0 && second==0) { //when timer is 00:00
                     timer.stop();
                 } 
             }
@@ -267,6 +282,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;

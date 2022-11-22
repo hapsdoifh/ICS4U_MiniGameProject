@@ -4,6 +4,8 @@
  */
 package GamePackage;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author zuhan
@@ -39,13 +41,21 @@ public class TypingGame {
     
     public boolean CheckWord(javax.swing.JTextField Source){
         boolean reval = GameLevel.checkMistake(Source.getText().substring(0,Source.getText().length()-1),Source);
-        if(reval){ //round eded
+        if(reval){ //round emded
             toggleRound();     
            //Score Calculation Here
            totalScore += 100-10*GameLevel.getMistakes();//place holder 
-                   
+           
            GameLevel.clear();
+           
         }
+        
         return reval;
     }
+    
+    //
+    public void displayWPM(double start, double end, JLabel label) {
+        label.setText(GameLevel.calcWPM(start, end));
+    }
+    
 }
