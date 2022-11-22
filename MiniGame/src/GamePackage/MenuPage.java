@@ -123,7 +123,7 @@ public class MenuPage extends javax.swing.JFrame {
         g.pack();
         g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         g.setLocationRelativeTo(null);
-        g.Timer();
+        //g.Timer();
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

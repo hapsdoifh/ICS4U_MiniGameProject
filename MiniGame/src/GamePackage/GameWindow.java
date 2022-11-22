@@ -13,10 +13,12 @@ import javax.swing.Timer;
  *
  * @author lTruUsr
  */
+
 public class GameWindow extends javax.swing.JFrame {
 
     MenuPage mp;
     TypingGame MainGame;
+    
     
     Timer timer;
     int second, minute, round;
@@ -38,15 +40,13 @@ public class GameWindow extends javax.swing.JFrame {
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3);   
         }    
+        MainGame.toggleRound();
         this.mp = mp;
-        
         second = 0;
         minute = 1;
         round = 0;
         
         jLabel5.setText("0" + minute + ":00");
-      
-
     }
 
     /**
@@ -86,11 +86,14 @@ public class GameWindow extends javax.swing.JFrame {
         jTextField3.setBackground(new java.awt.Color(253, 101, 101));
         jTextField3.setFont(new java.awt.Font("SimSun", 0, 18)); // NOI18N
         jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField3KeyReleased(evt);
             }
         });
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 202, 675, 93));
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 202, 680, 93));
 
         jLabel2.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,24 +182,12 @@ public class GameWindow extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         
         jTextField3.setEditable(true);
-        jButton1.setEnabled(false);
-              
-        if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3); 
-            start = LocalTime.now().toNanoOfDay();
-        }    
-       
+        jButton1.setEnabled(false);        
         jTextField3.setText("");
-        round++;
-        second = 60 - (5*round); //decreases timer by 5 seconds for each increasing level
-        
-        if (minute==0 && second<=10) { //lowest timer can go is 10 seconds
-            second = 10;
-            jLabel5.setText("00:10");
-        } else {
-            jLabel5.setText("0" + minute + ":" + second);
-        }
-        
+        if(!MainGame.getRoundState()){//round not started
+            MainGame.startRound(jTextArea1,jTextField3);   
+        }    
+        MainGame.toggleRound();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
@@ -211,11 +202,35 @@ public class GameWindow extends javax.swing.JFrame {
                     end = LocalTime.now().toNanoOfDay();
                     jButton1.setEnabled(true);
                     MainGame.displayWPM(start, end, jLabel6);
+                    timer.stop();
+                    jLabel5.setText("00:00");
                 }
             }
             
         }
     }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        // TODO add your handling code here:         
+        if(!MainGame.getRoundState()){//round not started
+            this.Timer();
+            timer.start();
+            MainGame.toggleRound();
+            
+            start = LocalTime.now().toNanoOfDay(); 
+            second = 60 - (5*round); //decreases timer by 5 seconds for each increasing level
+            round++;
+
+            if (minute==0 && second<=10) { //lowest timer can go is 10 seconds
+                second = 10;
+                jLabel5.setText("00:10");
+            } else {
+                jLabel5.setText("0" + minute + ":" + second);
+            }
+        }
+        
+       
+    }//GEN-LAST:event_jTextField3KeyPressed
 
     //countdown timer
      public void Timer() {
