@@ -32,6 +32,7 @@ public class GameWindow extends javax.swing.JFrame {
      */
     public GameWindow(MenuPage mp) {
         initComponents();
+        jButton1.setEnabled(false);
         MainGame = new TypingGame("RandomWords.txt");   
         start = LocalTime.now().toNanoOfDay();
         if(!MainGame.getRoundState()){//round not started
@@ -69,6 +70,7 @@ public class GameWindow extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,8 +149,11 @@ public class GameWindow extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("jLabel6");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -174,6 +179,7 @@ public class GameWindow extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         
         jTextField3.setEditable(true);
+        jButton1.setEnabled(false);
               
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3); 
@@ -200,9 +206,10 @@ public class GameWindow extends javax.swing.JFrame {
         }else{
             if(jTextField3.getText().contains(" ")){ //check this word
                 if(MainGame.CheckWord(jTextField3)){
-                    jLabel2.setText(""+MainGame.getScore());
+                    jLabel7.setText(""+MainGame.getScore());
                     jTextField3.setEditable(false);
                     end = LocalTime.now().toNanoOfDay();
+                    jButton1.setEnabled(true);
                     MainGame.displayWPM(start, end, jLabel6);
                 }
             }
@@ -286,6 +293,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
