@@ -10,7 +10,7 @@ import javax.swing.JLabel;
  *
  * @author zuhan
  */
-public class TypingGame {
+public class GameRound {
     protected int totalScore = 0;
     protected int LevelCount;
     public Level GameLevel;
@@ -27,12 +27,13 @@ public class TypingGame {
         return totalScore;
     }
     
-    public TypingGame(String Filename){
+    public GameRound(String Filename){
         GameLevel = new Level(Filename);
         RoundState = false;
         totalScore = 0;
         LevelCount = 0;
     }
+    
     public void startRound(javax.swing.JTextArea Dest, javax.swing.JTextField Source){
         GameLevel.DoLevel(Dest, Source);
     }
@@ -43,12 +44,11 @@ public class TypingGame {
         if(reval){ //round emded
            toggleRound();     
            //Score Calculation Here
-           if(GameLevel.getSentenceLength()*5 > 10*GameLevel.getMistakes()){
-                totalScore += GameLevel.getSentenceLength()*((time/5)+1) - 10*GameLevel.getMistakes();             
+           if(GameLevel.getSentenceLength()*((time/5)+1) > 6*GameLevel.getMistakes()){
+                totalScore += GameLevel.getSentenceLength()*((time/5)+1) - 6*GameLevel.getMistakes();             
            }else{
                totalScore +=0;
            }
-           
            GameLevel.clear();
            
         }

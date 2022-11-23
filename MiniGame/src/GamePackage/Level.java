@@ -83,7 +83,6 @@ public class Level{
             }
         }
         
-        
         checkIndex++;
         Mistakes += mistake;
         totalChar += In.length();

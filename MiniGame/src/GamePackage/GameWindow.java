@@ -18,7 +18,7 @@ import javax.swing.Timer;
 public class GameWindow extends javax.swing.JFrame {
 
     MenuPage mp;
-    TypingGame MainGame;
+    GameRound MainGame;
     Leaderboard lb;
     
     Timer timer;
@@ -36,7 +36,7 @@ public class GameWindow extends javax.swing.JFrame {
     public GameWindow(MenuPage mp, Leaderboard lb) {
         initComponents();
         jButton1.setEnabled(false);
-        MainGame = new TypingGame("RandomWords.txt");   
+        MainGame = new GameRound("RandomWords.txt");   
         start = LocalTime.now().toNanoOfDay();
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3);  
@@ -48,7 +48,7 @@ public class GameWindow extends javax.swing.JFrame {
         second = 0;
         minute = 0;
         round = 0;
-        
+        jTextField3.setText("");
         jLabel5.setText("0" + minute + ":00");
     }
 
@@ -180,6 +180,7 @@ public class GameWindow extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         setVisible(false);
         mp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -204,13 +205,8 @@ public class GameWindow extends javax.swing.JFrame {
                     jButton1.setEnabled(true);
                     MainGame.displayWPM(start, end, jLabel6);
                     timer.stop();
-                    jLabel5.setText("00:00");
+                    jLabel5.setText("--:--");
                     
-                    String playerName = JOptionPane.showInputDialog("Please enter your username to track score: ");
-                    setVisible(false);
-                    lb.setVisible(true);
-                    lb.addPlayer(playerName, MainGame.getScore());
-
                 }
             }            
         }       
@@ -224,9 +220,10 @@ public class GameWindow extends javax.swing.JFrame {
             MainGame.toggleRound();
             
             start = LocalTime.now().toNanoOfDay(); 
-            second = 60 - (5*round); //decreases timer by 5 seconds for each increasing level
+            second = 10 - (5*round); //decreases timer by 5 seconds for each increasing level
             round++;
-
+            
+            
             if (minute==0 && second<=10) { //lowest timer can go is 10 seconds
                 second = 10;
                 jLabel5.setText("00:10");
@@ -261,8 +258,13 @@ public class GameWindow extends javax.swing.JFrame {
                    
                 }
                 
-                if (minute==0 && second==0) { //when timer is 00:00
+                if (minute<=0 && second<=0) { //when timer is 00:00
                     timer.stop();
+                    String playerName = JOptionPane.showInputDialog("The attempt has ended\nPlease enter your username to track score: ");
+                    setVisible(false);
+                    lb.setVisible(true);
+                    lb.addPlayer(playerName, MainGame.getScore());
+
                 } 
             }
         });

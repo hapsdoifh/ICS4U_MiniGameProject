@@ -125,6 +125,7 @@ public class MenuPage extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         setVisible(false);
+        g = new GameWindow(this, l);
         g.setVisible(true);
         g.pack();
         g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
