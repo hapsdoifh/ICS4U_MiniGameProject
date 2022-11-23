@@ -5,6 +5,7 @@ import java.util.*;
 import java.io.*;
 import javax.swing.*;
 import java.math.*;
+import java.time.LocalTime;
 
 public class Level{
     protected String[] text;
@@ -13,21 +14,34 @@ public class Level{
     protected int time; //in seconds
     protected int Mistakes;
     protected ArrayList<String> Words = new ArrayList<String>();
+    protected int totalChar = 0;
     
     public Level(String Filename){
         difficulty = 1;
         checkIndex = 0;
         Mistakes = 0;
+        
         try{
             File tempFile = new File("src\\GamePackage\\RandomWords.txt");
             Scanner myScan = new Scanner(tempFile);
             int i = 0;
             while (myScan.hasNext()){
                 Words.add( myScan.nextLine());
+                
             }
         }
         catch(Exception e){}
     }
+    
+    //calculates the user's approximate words per minute
+    public String calcWPM(double start, double end) {
+        double elapsedTime = end - start;
+        double seconds = elapsedTime / 1000000000.0; //total time taken to type out phrase
+        int wpm = (int) ((((double) totalChar / 4) / seconds)*60);
+        totalChar = 0;
+        return Integer.toString(wpm);
+    }
+    
     public int getMistakes(){
         return Mistakes;
     }
@@ -39,6 +53,7 @@ public class Level{
         text = null;
     }
     public void DoLevel(javax.swing.JTextArea Dest, javax.swing.JTextField Source){
+
         int rangeBot = Words.size()/20*(difficulty>=20?19:difficulty-1);
         int rangeTop = Words.size()/20*(difficulty>=20?20:difficulty);
         int L = (int)(10+difficulty*1.5);
@@ -50,6 +65,7 @@ public class Level{
             output += " ";
         }
         Dest.setText(output);
+        
     }
     public boolean checkMistake(String In,javax.swing.JTextField Source){
         int mistake = 0;
@@ -62,8 +78,11 @@ public class Level{
                 mistake++;
             }
         }
+        
+        
         checkIndex++;
         Mistakes += mistake;
+        totalChar += In.length();
         Source.setText("");
         if(checkIndex >= (int)(10+difficulty*1.5)){
             difficulty ++;
@@ -71,9 +90,5 @@ public class Level{
         }else{
             return false;
         }
-    }
-    
-    public void decreaseTime() {
-        
     }
 }

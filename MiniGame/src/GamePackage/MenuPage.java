@@ -14,6 +14,7 @@ public class MenuPage extends javax.swing.JFrame {
 
     Instructions i;
     GameWindow g;
+    Leaderboard l; 
     
     /**
      * Creates new form MainPage
@@ -22,7 +23,8 @@ public class MenuPage extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         i = new Instructions(this);
-        g = new GameWindow(this);
+        l = new Leaderboard(this);
+        g = new GameWindow(this, l);
     }
 
     /**
@@ -112,7 +114,11 @@ public class MenuPage extends javax.swing.JFrame {
     
     //display leaderboard window
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        l.setVisible(true);
+        l.pack();
+        l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        l.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     //display game window
@@ -123,7 +129,7 @@ public class MenuPage extends javax.swing.JFrame {
         g.pack();
         g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         g.setLocationRelativeTo(null);
-        g.Timer();
+        //g.Timer();
         
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -6,40 +6,53 @@ package GamePackage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.time.LocalTime;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
  *
  * @author lTruUsr
  */
+
 public class GameWindow extends javax.swing.JFrame {
 
     MenuPage mp;
     TypingGame MainGame;
+    Leaderboard lb;
     
     Timer timer;
-    int second, minute;
+    int second, minute, round;
     String ddSecond, ddMinute;
+    
+    double start;
+    double end;
     
     DecimalFormat dFormat = new DecimalFormat("00");
     
     /**
      * Creates new form GameWindow
      */
-    public GameWindow(MenuPage mp) {
+    public GameWindow(MenuPage mp, Leaderboard lb) {
         initComponents();
-        MainGame = new TypingGame("RandomWords.txt");     
+        jButton1.setEnabled(false);
+        MainGame = new TypingGame("RandomWords.txt");   
+        start = LocalTime.now().toNanoOfDay();
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);    
-        }    
+            MainGame.startRound(jTextArea1,jTextField3);   
+        }   
+        
         this.mp = mp;
+        this.lb = lb;
+        
+        MainGame.toggleRound();
+        
         
         second = 0;
-        minute = 3;
+        minute = 1;
+        round = 0;
         
         jLabel5.setText("0" + minute + ":00");
-      
-
     }
 
     /**
@@ -62,6 +75,8 @@ public class GameWindow extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,17 +91,15 @@ public class GameWindow extends javax.swing.JFrame {
 
         jTextField3.setBackground(new java.awt.Color(253, 101, 101));
         jTextField3.setFont(new java.awt.Font("SimSun", 0, 18)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
         jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField3KeyReleased(evt);
             }
         });
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 202, 675, 93));
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 202, 680, 93));
 
         jLabel2.setFont(new java.awt.Font("Stencil", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -138,10 +151,18 @@ public class GameWindow extends javax.swing.JFrame {
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 180, 30));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("jLabel5");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 340, 100, 20));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, -1, -1));
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,16 +186,14 @@ public class GameWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:        
-        if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);            
-        }    
-       
-        //the code below goes into the negatives - NOT FIXED YET
-        jTextField3.setText("");
-        second = 0;
-        jLabel5.setText("0" + minute + ":00");
         
+        jTextField3.setEditable(true);
+        jButton1.setEnabled(false);        
+        jTextField3.setText("");
+        if(!MainGame.getRoundState()){//round not started
+            MainGame.startRound(jTextArea1,jTextField3);   
+        }    
+        MainGame.toggleRound();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
@@ -184,16 +203,48 @@ public class GameWindow extends javax.swing.JFrame {
         }else{
             if(jTextField3.getText().contains(" ")){ //check this word
                 if(MainGame.CheckWord(jTextField3)){
-                    jLabel2.setText(""+MainGame.getScore());
+                    jLabel7.setText(""+MainGame.getScore());
+                    jTextField3.setEditable(false);
+                    end = LocalTime.now().toNanoOfDay();
+                    jButton1.setEnabled(true);
+                    MainGame.displayWPM(start, end, jLabel6);
+                    timer.stop();
+                    jLabel5.setText("00:00");
+                    
+                    String playerName = JOptionPane.showInputDialog("Please enter your username to track score: ");
+                    setVisible(false);
+                    lb.setVisible(true);
+                    lb.addPlayer(playerName, MainGame.getScore());
+
                 }
             }
+            
         }
     }//GEN-LAST:event_jTextField3KeyReleased
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        // TODO add your handling code here:         
+        if(!MainGame.getRoundState()){//round not started
+            this.Timer();
+            timer.start();
+            MainGame.toggleRound();
+            
+            start = LocalTime.now().toNanoOfDay(); 
+            second = 60 - (5*round); //decreases timer by 5 seconds for each increasing level
+            round++;
 
+            if (minute==0 && second<=10) { //lowest timer can go is 10 seconds
+                second = 10;
+                jLabel5.setText("00:10");
+            } else {
+                jLabel5.setText("0" + minute + ":" + second);
+            }
+        }
+        
+       
+    }//GEN-LAST:event_jTextField3KeyPressed
+
+    //countdown timer
      public void Timer() {
         timer = new Timer(1000, new ActionListener() {
             
@@ -206,7 +257,7 @@ public class GameWindow extends javax.swing.JFrame {
                 
                 jLabel5.setText(ddMinute + ":" + ddSecond);
                 
-                if (second==-1) {
+                if (second==-1) { //moves onto next minute (one less)
                     second=59;
                     minute--;
                     
@@ -216,9 +267,9 @@ public class GameWindow extends javax.swing.JFrame {
                    
                 }
                 
-                if (minute==0 && second==0) {
+                if (minute==0 && second==0) { //when timer is 00:00
                     timer.stop();
-                }
+                } 
             }
         });
         
@@ -268,6 +319,8 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
