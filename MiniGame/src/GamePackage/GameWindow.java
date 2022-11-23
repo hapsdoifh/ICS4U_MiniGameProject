@@ -188,9 +188,11 @@ public class GameWindow extends javax.swing.JFrame {
         jTextField3.setEditable(true);
         jButton1.setEnabled(false);        
         jTextField3.setText("");
-        if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);
-        }    
+        MainGame.startRound(jTextArea1,jTextField3);
+        MainGame.toggleRound();
+//        if(!MainGame.getRoundState()){//round not started
+//            
+//        }    
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased

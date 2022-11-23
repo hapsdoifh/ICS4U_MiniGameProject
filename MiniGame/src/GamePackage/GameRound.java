@@ -42,7 +42,7 @@ public class GameRound {
     public boolean CheckWord(javax.swing.JTextField Source, int time){
         boolean reval = GameLevel.checkMistake(Source.getText().substring(0,Source.getText().length()-1),Source);
         if(reval){ //round emded
-           toggleRound();     
+           //toggleRound();     
            //Score Calculation Here
            if(GameLevel.getSentenceLength()*((time/5)+1) > 6*GameLevel.getMistakes()){
                 totalScore += GameLevel.getSentenceLength()*((time/5)+1) - 6*GameLevel.getMistakes();             
