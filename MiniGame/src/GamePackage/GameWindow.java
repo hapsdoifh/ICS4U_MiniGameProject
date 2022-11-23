@@ -260,7 +260,7 @@ public class GameWindow extends javax.swing.JFrame {
                    
                 }
                 
-                if (minute<=0 && second<=0) { //when timer is 00:00
+                if (minute==0 && second==0) { //when timer is 00:00
                     timer.stop();
                     String playerName = JOptionPane.showInputDialog("The attempt has ended\nPlease enter your username to track score: ");
                     setVisible(false);
