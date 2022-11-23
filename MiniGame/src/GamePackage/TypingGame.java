@@ -35,16 +35,19 @@ public class TypingGame {
     }
     public void startRound(javax.swing.JTextArea Dest, javax.swing.JTextField Source){
         GameLevel.DoLevel(Dest, Source);
-        toggleRound();
     }
     
     
-    public boolean CheckWord(javax.swing.JTextField Source){
+    public boolean CheckWord(javax.swing.JTextField Source, int time){
         boolean reval = GameLevel.checkMistake(Source.getText().substring(0,Source.getText().length()-1),Source);
         if(reval){ //round emded
-            toggleRound();     
+           toggleRound();     
            //Score Calculation Here
-           totalScore += 100-10*GameLevel.getMistakes();//place holder 
+           if(GameLevel.getSentenceLength()*5 > 10*GameLevel.getMistakes()){
+                totalScore += GameLevel.getSentenceLength()*((time/5)+1) - 10*GameLevel.getMistakes();             
+           }else{
+               totalScore +=0;
+           }
            
            GameLevel.clear();
            

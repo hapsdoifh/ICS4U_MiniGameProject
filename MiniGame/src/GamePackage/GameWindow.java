@@ -39,17 +39,14 @@ public class GameWindow extends javax.swing.JFrame {
         MainGame = new TypingGame("RandomWords.txt");   
         start = LocalTime.now().toNanoOfDay();
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);   
+            MainGame.startRound(jTextArea1,jTextField3);  
         }   
         
         this.mp = mp;
         this.lb = lb;
         
-        MainGame.toggleRound();
-        
-        
         second = 0;
-        minute = 1;
+        minute = 0;
         round = 0;
         
         jLabel5.setText("0" + minute + ":00");
@@ -191,18 +188,16 @@ public class GameWindow extends javax.swing.JFrame {
         jButton1.setEnabled(false);        
         jTextField3.setText("");
         if(!MainGame.getRoundState()){//round not started
-            MainGame.startRound(jTextArea1,jTextField3);   
+            MainGame.startRound(jTextArea1,jTextField3);
         }    
-        MainGame.toggleRound();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
         // TODO add your handling code here:
-        if(!MainGame.getRoundState()){//round not started
-            //MainGame.startRound(jTextArea1,jTextField3);            
-        }else{
+        if(MainGame.getRoundState()){//Has Started started  
             if(jTextField3.getText().contains(" ")){ //check this word
-                if(MainGame.CheckWord(jTextField3)){
+                if(MainGame.CheckWord(jTextField3, second)){
+                    
                     jLabel7.setText(""+MainGame.getScore());
                     jTextField3.setEditable(false);
                     end = LocalTime.now().toNanoOfDay();
@@ -217,9 +212,8 @@ public class GameWindow extends javax.swing.JFrame {
                     lb.addPlayer(playerName, MainGame.getScore());
 
                 }
-            }
-            
-        }
+            }            
+        }       
     }//GEN-LAST:event_jTextField3KeyReleased
 
     private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed

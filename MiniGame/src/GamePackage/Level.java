@@ -45,6 +45,10 @@ public class Level{
     public int getMistakes(){
         return Mistakes;
     }
+    public int getSentenceLength(){
+        return text.length;
+    }
+   
     
     public void clear(){
         checkIndex = 0;
