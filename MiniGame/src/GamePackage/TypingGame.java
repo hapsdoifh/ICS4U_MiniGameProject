@@ -11,10 +11,10 @@ import javax.swing.JLabel;
  * @author zuhan
  */
 public class TypingGame {
-    protected int totalScore = 0;
-    protected int LevelCount;
-    public Level GameLevel;
-    protected boolean RoundState; //false for not started, true for started
+    private int totalScore = 0;
+    private int LevelCount;
+    private Level GameLevel;
+    private boolean RoundState; //false for not started, true for started
 
     
     public void toggleRound(){

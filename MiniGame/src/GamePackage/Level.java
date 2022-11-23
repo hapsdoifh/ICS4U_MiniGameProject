@@ -8,13 +8,13 @@ import java.math.*;
 import java.time.LocalTime;
 
 public class Level{
-    protected String[] text;
-    public int difficulty;
-    protected int checkIndex;
-    protected int time; //in seconds
-    protected int Mistakes;
-    protected ArrayList<String> Words = new ArrayList<String>();
-    protected int totalChar = 0;
+    private String[] text;
+    private int difficulty;
+    private int checkIndex;
+    private int time; //in seconds
+    private int Mistakes;
+    private ArrayList<String> Words = new ArrayList<String>();
+    private int totalChar = 0;
     
     public Level(String Filename){
         difficulty = 1;

@@ -227,7 +227,7 @@ public class GameWindow extends javax.swing.JFrame {
             
             
             if (minute==0 && second<=10) { //lowest timer can go is 10 seconds
-                second = 10;
+                second = 20;
                 jLabel5.setText("00:10");
             } else {
                 jLabel5.setText("0" + minute + ":" + second);
