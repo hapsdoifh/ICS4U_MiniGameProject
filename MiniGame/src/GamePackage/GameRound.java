@@ -44,8 +44,8 @@ public class GameRound {
         if(reval){ //round emded
            //toggleRound();     
            //Score Calculation Here
-           if(GameLevel.getSentenceLength()*((time/5)+1) > 6*GameLevel.getMistakes()){
-                totalScore += GameLevel.getSentenceLength()*((time/5)+1) - 6*GameLevel.getMistakes();             
+           if(GameLevel.getSentenceLength()*((time/2)+1) > 2*GameLevel.getMistakes()){
+                totalScore += GameLevel.getSentenceLength()*((time/2)+1) - 2*GameLevel.getMistakes();             
            }else{
                totalScore +=0;
            }
