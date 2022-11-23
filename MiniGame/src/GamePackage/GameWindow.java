@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.time.LocalTime;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -18,7 +19,7 @@ public class GameWindow extends javax.swing.JFrame {
 
     MenuPage mp;
     TypingGame MainGame;
-    
+    Leaderboard lb;
     
     Timer timer;
     int second, minute, round;
@@ -32,16 +33,21 @@ public class GameWindow extends javax.swing.JFrame {
     /**
      * Creates new form GameWindow
      */
-    public GameWindow(MenuPage mp) {
+    public GameWindow(MenuPage mp, Leaderboard lb) {
         initComponents();
         jButton1.setEnabled(false);
         MainGame = new TypingGame("RandomWords.txt");   
         start = LocalTime.now().toNanoOfDay();
         if(!MainGame.getRoundState()){//round not started
             MainGame.startRound(jTextArea1,jTextField3);   
-        }    
-        MainGame.toggleRound();
+        }   
+        
         this.mp = mp;
+        this.lb = lb;
+        
+        MainGame.toggleRound();
+        
+        
         second = 0;
         minute = 1;
         round = 0;
@@ -204,6 +210,12 @@ public class GameWindow extends javax.swing.JFrame {
                     MainGame.displayWPM(start, end, jLabel6);
                     timer.stop();
                     jLabel5.setText("00:00");
+                    
+                    String playerName = JOptionPane.showInputDialog("Please enter your username to track score: ");
+                    setVisible(false);
+                    lb.setVisible(true);
+                    lb.addPlayer(playerName, MainGame.getScore());
+
                 }
             }
             
