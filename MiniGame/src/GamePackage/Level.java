@@ -11,7 +11,6 @@ public class Level{
     private String[] text;
     private int difficulty;
     private int checkIndex;
-    private int time; //in seconds
     private int Mistakes;
     private ArrayList<String> Words = new ArrayList<String>();
     private int totalChar = 0;
@@ -52,7 +51,6 @@ public class Level{
     
     public void clear(){
         checkIndex = 0;
-        time = 0; //in seconds
         Mistakes = 0;
         text = null;
     }

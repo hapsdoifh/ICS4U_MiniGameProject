@@ -12,7 +12,6 @@ import javax.swing.JLabel;
  */
 public class GameRound {
     protected int totalScore = 0;
-    protected int LevelCount;
     public Level GameLevel;
     protected boolean RoundState; //false for not started, true for started
 
@@ -31,7 +30,6 @@ public class GameRound {
         GameLevel = new Level(Filename);
         RoundState = false;
         totalScore = 0;
-        LevelCount = 0;
     }
     
     public void startRound(javax.swing.JTextArea Dest, javax.swing.JTextField Source){
