@@ -24,7 +24,7 @@ public class Leaderboard extends javax.swing.JFrame {
 
     MenuPage mp;
     
-    private DefaultTableModel tm;
+    private DefaultTableModel PlayerRecord;
     private String leaderboardFile = "leaderboard";
     private TableRowSorter<TableModel> sorter;
     
@@ -45,13 +45,13 @@ public class Leaderboard extends javax.swing.JFrame {
         ci.add("Player");
         ci.add("Score");
         
-        tm = (DefaultTableModel) leaderboard.getModel();
+        PlayerRecord = (DefaultTableModel) leaderboard.getModel();
         
         try {
             FileInputStream fs = new FileInputStream(leaderboardFile);
             ObjectInputStream os = new ObjectInputStream(fs);
 
-            tm.setDataVector((Vector<Vector>) os.readObject(), ci);
+            PlayerRecord.setDataVector((Vector<Vector>) os.readObject(), ci);
 
             os.close();
             fs.close();
@@ -59,7 +59,7 @@ public class Leaderboard extends javax.swing.JFrame {
     }
     
     private void initTableSorter() {
-        sorter = new TableRowSorter<>(tm);
+        sorter = new TableRowSorter<>(PlayerRecord);
         leaderboard.setRowSorter(sorter);
         
         ArrayList<SortKey> keys = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Leaderboard extends javax.swing.JFrame {
             FileOutputStream fs = new FileOutputStream(leaderboardFile);
             ObjectOutputStream os = new ObjectOutputStream(fs);
 
-            os.writeObject(tm.getDataVector());
+            os.writeObject(PlayerRecord.getDataVector());
 
             os.close();
             fs.close();
@@ -83,7 +83,7 @@ public class Leaderboard extends javax.swing.JFrame {
     }
     
     public void addPlayer(String playerName, int score) {
-        tm.addRow(new Object[] {playerName, score});
+        PlayerRecord.addRow(new Object[] {playerName, score});
         sorter.sort();
         
         saveLeaderboard();
@@ -222,7 +222,7 @@ public class Leaderboard extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         try {
-            tm.removeRow(tm.getRowCount()-1);
+            PlayerRecord.removeRow(PlayerRecord.getRowCount()-1);
             saveLeaderboard();
             this.setVisible(false);
             this.setVisible(true);
